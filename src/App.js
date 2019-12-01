@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import DrumMachine from './components/DrumMachine';
 import Footer from './components/Footer';
 
 function App() {
-  const [display, setDisplay] = useState('initial');
+  const [display, setDisplay] = useState('');
+
+  const playSound = e => {
+    e.preventDefault();
+    console.log(e.target);
+    // const sound = document.getElementById(this.keyTrigger);
+    // sound.currentTime = 0;
+    // sound.play();
+    setDisplay(this.id);
+  };
 
   return (
-    <>
+    <Fragment>
       <Header />
-      <DrumMachine soundBank={soundBank} display={display} />
+      <DrumMachine
+        display={display}
+        soundBank={soundBank}
+        onClick={playSound}
+      />
       <Footer />
-    </>
+    </Fragment>
   );
 }
 
