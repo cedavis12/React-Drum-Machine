@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
 import DrumMachine from './components/DrumMachine';
@@ -7,13 +7,40 @@ import Footer from './components/Footer';
 function App() {
   const [display, setDisplay] = useState('');
 
-  const playSound = e => {
+  const handleClick = e => {
     e.preventDefault();
-    console.log(e.target);
-    // const sound = document.getElementById(this.keyTrigger);
-    // sound.currentTime = 0;
-    // sound.play();
-    setDisplay(this.id);
+    const text = e.target.id;
+    const sound = document.getElementById(e.target.innerText);
+    sound.play();
+    setDisplay(text);
+  };
+
+  useEffect(() => {
+    document.addEventListener('keypress', handleKeyPress);
+    // eslint-disable-next-line
+  }, []);
+
+  const handleKeyPress = e => {
+    const keyCode = e.key.toUpperCase();
+    const sound = document.getElementById(keyCode);
+
+    switch (keyCode) {
+      case 'Q':
+      case 'W':
+      case 'E':
+      case 'A':
+      case 'S':
+      case 'D':
+      case 'Z':
+      case 'X':
+      case 'C':
+        const text = sound.parentElement.id;
+        sound.play();
+        setDisplay(text);
+        break;
+      default:
+        return;
+    }
   };
 
   return (
@@ -22,7 +49,7 @@ function App() {
       <DrumMachine
         display={display}
         soundBank={soundBank}
-        onClick={playSound}
+        handleClick={handleClick}
       />
       <Footer />
     </Fragment>
